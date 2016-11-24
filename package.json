@@ -1,7 +1,7 @@
 {
     "name": "single-page-application-router",
-    "version": "0.0.2",
-    "description": "TBD",
+    "version": "1.0.0",
+    "description": "This is a SPA router and container element for internal use only. It suppresses all hyperlink on the page and use pushState to implement SPA, and when state changes, it maps its content to specified custom element.",
     "keywords": [ "router", "SPA", "web-components" ],
     "main": "single.page.application.router.html",
     "author": {
@@ -12,5 +12,8 @@
     "repository": {
         "type": "git",
         "url": "https://github.com/lzsoft/single.page.application.router.git"
+    },
+    "dependencies": {
+        "html-extension": "*"
     }
 }
