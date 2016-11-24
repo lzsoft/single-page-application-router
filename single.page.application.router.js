@@ -25,10 +25,10 @@ window.customElements.define('single-page-application-router', class extends HTM
             this.innerHTML = "";
             let p = window.location.pathname;
             let t = "";
-            let keys = Object.keys(this.map);
+            let keys = Object.keys(map);
             for (let i = 0; i < keys.length; i++) {
                 if (p.indexOf(keys[i]) >= 0) {
-                    t = this.map[keys[i]];
+                    t = map[keys[i]];
                 }
             }
             let c = window.customElements.get(t);
