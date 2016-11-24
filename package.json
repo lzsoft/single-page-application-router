@@ -1,0 +1,16 @@
+{
+    "name": "single-page-application-router",
+    "version": "0.0.2",
+    "description": "TBD",
+    "keywords": [ "router", "SPA", "web-components" ],
+    "main": "single.page.application.router.html",
+    "author": {
+        "name": "JingAn Chen",
+        "email": "lzsoft.cja@gmail.com"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/lzsoft/single.page.application.router.git"
+    }
+}
