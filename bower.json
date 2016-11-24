@@ -6,5 +6,8 @@
     "license": "MIT",
     "keywords": [ "router", "SPA", "web-components" ],
     "homepage": "https://github.com/lzsoft/single.page.application.router",
-    "ignore": [ "**/.*", "node_modules", "bower_components", "test", "tests" ]
+    "ignore": [ "**/.*", "node_modules", "bower_components", "test", "tests" ],
+    "dependencies": {
+        "html.extension": "*"
+    }
 }
