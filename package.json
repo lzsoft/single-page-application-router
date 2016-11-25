@@ -1,6 +1,6 @@
 {
     "name": "single.page.application.router",
-    "version": "1.2.0",
+    "version": "1.2.2",
     "description": "This is a SPA router and container element for internal use only. It suppresses all hyperlink on the page and use pushState to implement SPA, and when state changes, it maps its content to specified custom element.",
     "keywords": [ "router", "SPA", "web-components" ],
     "main": "single.page.application.router.html",
@@ -14,6 +14,6 @@
         "url": "https://github.com/lzsoft/single.page.application.router.git"
     },
     "dependencies": {
-        "html.extension": "*"
+        "front.end.infrastructure": "*"
     }
 }

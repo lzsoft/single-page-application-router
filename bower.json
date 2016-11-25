@@ -8,6 +8,6 @@
     "homepage": "https://github.com/lzsoft/single.page.application.router",
     "ignore": [ "**/.*", "node_modules", "bower_components", "test", "tests" ],
     "dependencies": {
-        "html.extension": "*"
+        "front.end.infrastructure": "*"
     }
 }
