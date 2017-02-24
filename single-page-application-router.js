@@ -22,7 +22,7 @@ window.customElements.define('single-page-application-router', class extends HTM
             map[el.getAttribute("data-pattern")] = el.getAttribute("data-element");
         });
         // Deal with popstate event
-        window.addEventListener("popstate", (e) => {
+        window.addEventListener("popstate", function(e) {
             self.classList.add("fade");
             window.setTimeout(function() {
                 self.innerHTML = "";
@@ -45,7 +45,7 @@ window.customElements.define('single-page-application-router', class extends HTM
                 }, 100);
             }, 100);
         });
-        window.addEventListener("load", (e) => {
+        window.addEventListener("load", function(e) {
             window.dispatchEvent(new Event("popstate"));
         });
     }

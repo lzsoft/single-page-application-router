@@ -5,8 +5,9 @@
     "license": "MIT",
     "keywords": ["router", "SPA", "web-components"],
     "homepage": "https://github.com/lzsoft/single-page-application-router",
-    "ignore": ["**/.*", "node_modules", "bower_components", "test", "tests", "publish.bat", "readme.md"],
+    "ignore": ["**/.*", "node_modules/", "bower_components/", "test/", "tests/", "publish.bat", "readme.md"],
     "dependencies": {
-        "front-end-infrastructure": "lzsoft/front-end-infrastructure"
+        "front-end-infrastructure": "lzsoft/front-end-infrastructure",
+        "webcomponentsjs": "webcomponents/webcomponentsjs"
     }
 }
