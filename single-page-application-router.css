@@ -8,3 +8,7 @@ single-page-application-router.fade {
     opacity: 0;
     z-index: 0;
 }
+
+single-page-application-router > * {
+    position: relative;
+}
