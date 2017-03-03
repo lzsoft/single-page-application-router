@@ -2,6 +2,7 @@ single-page-application-router {
     opacity: 1;
     z-index: auto;
     transition: opacity 0.1s;
+    display: block;
 }
 
 single-page-application-router.fade {
