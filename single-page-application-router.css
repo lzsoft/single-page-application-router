@@ -3,6 +3,7 @@ single-page-application-router {
     z-index: auto;
     transition: opacity 0.1s;
     display: block;
+    flex-grow: 1;
 }
 
 single-page-application-router.fade {
