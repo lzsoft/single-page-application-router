@@ -25,6 +25,7 @@ window.customElements.define('single-page-application-router', class extends HTM
         window.addEventListener("popstate", function(e) {
             self.classList.add("fade");
             window.setTimeout(function() {
+                window.scroll(0, 0);
                 self.innerHTML = "";
                 let p = window.location.pathname;
                 let t = "";
