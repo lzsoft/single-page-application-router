@@ -1,6 +1,13 @@
+window.customElements.define('single-page-application-route', class extends HTMLElement {
+    constructor() {
+        super();
+    }
+});
 window.customElements.define('single-page-application-router', class extends HTMLElement {
     constructor() {
         super();
+    }
+    connectedCallback() {
         let self = this;
         const map = {};
         // Suppress <a> element
@@ -49,10 +56,8 @@ window.customElements.define('single-page-application-router', class extends HTM
         window.addEventListener("load", function(e) {
             window.dispatchEvent(new Event("popstate"));
         });
-    }
-});
-window.customElements.define('single-page-application-route', class extends HTMLElement {
-    constructor() {
-        super();
+        window.addEventListener("WebComponentsReady", function(e) {
+            window.dispatchEvent(new Event("popstate"));
+        });
     }
 });
