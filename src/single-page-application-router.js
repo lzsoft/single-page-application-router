@@ -12,11 +12,14 @@ window.customElements.define('single-page-application-router', class extends HTM
         const map = {};
         // Suppress <a> element
         let observer = new MutationObserver(function(mutations) {
-            document.querySelectorAll("a:not([data-suppressed])").setAttribute("data-suppressed", true).addEventListener("click", function(e) {
-                e.preventDefault();
-                window.history.pushState(null, null, this.href);
-                window.dispatchEvent(new Event("popstate"));
-            });
+            for (let a of document.querySelectorAll("a:not([data-suppressed])")) {
+                a.setAttribute("data-suppressed", true);
+                a.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    window.history.pushState(null, null, a.href);
+                    window.dispatchEvent(new Event("popstate"));
+                });
+            }
         });
         observer.observe(document, {
             attributes: false,
@@ -25,9 +28,9 @@ window.customElements.define('single-page-application-router', class extends HTM
             subtree: true
         });
         // Construct map
-        this.querySelectorAll("single-page-application-route").exec(function(el) {
-            map[el.getAttribute("data-pattern")] = el.getAttribute("data-element");
-        });
+        for (let r of this.querySelectorAll("single-page-application-route")) {
+            map[r.getAttribute("data-pattern")] = r.getAttribute("data-element");
+        }
         // Deal with popstate event
         window.addEventListener("popstate", function(e) {
             self.classList.add("fade");
