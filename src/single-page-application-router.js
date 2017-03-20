@@ -25,7 +25,7 @@ window.customElements.define('single-page-application-router', class extends HTM
             subtree: true
         });
         // Construct map
-        this.querySelectorAll(":scope > single-page-application-route").exec(function(el) {
+        this.querySelectorAll("single-page-application-route").exec(function(el) {
             map[el.getAttribute("data-pattern")] = el.getAttribute("data-element");
         });
         // Deal with popstate event
