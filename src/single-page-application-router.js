@@ -8,11 +8,11 @@ window.customElements.define('single-page-application-router', class extends HTM
         super();
     }
     connectedCallback() {
-        let self = this;
-        const map = {};
+        var self = this;
+        var map = {};
         // Suppress <a> element
-        let observer = new MutationObserver(function(mutations) {
-            for (let a of document.querySelectorAll("a:not([data-suppressed])")) {
+        var observer = new MutationObserver(function(mutations) {
+            for (var a of document.querySelectorAll("a:not([data-suppressed])")) {
                 a.setAttribute("data-suppressed", true);
                 a.addEventListener("click", function(e) {
                     e.preventDefault();
@@ -28,7 +28,7 @@ window.customElements.define('single-page-application-router', class extends HTM
             subtree: true
         });
         // Construct map
-        for (let r of this.querySelectorAll("single-page-application-route")) {
+        for (var r of this.querySelectorAll("single-page-application-route")) {
             map[r.getAttribute("data-pattern")] = r.getAttribute("data-element");
         }
         // Deal with popstate event
@@ -37,15 +37,15 @@ window.customElements.define('single-page-application-router', class extends HTM
             window.setTimeout(function() {
                 window.scroll(0, 0);
                 self.innerHTML = "";
-                let p = window.location.pathname;
-                let t = "";
-                let keys = Object.keys(map);
-                for (let i = 0; i < keys.length; i++) {
+                var p = window.location.pathname;
+                var t = "";
+                var keys = Object.keys(map);
+                for (var i = 0; i < keys.length; i++) {
                     if (p.indexOf(keys[i]) >= 0) {
                         t = map[keys[i]];
                     }
                 }
-                let c = window.customElements.get(t);
+                var c = window.customElements.get(t);
                 if (c) {
                     self.appendChild(new c());
                 } else {
