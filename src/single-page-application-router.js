@@ -16,7 +16,7 @@ window.customElements.define('single-page-application-router', class extends HTM
                 a.setAttribute("data-suppressed", true);
                 a.addEventListener("click", function(e) {
                     e.preventDefault();
-                    window.history.pushState(null, null, a.href);
+                    window.history.pushState(null, null, this.href);
                     window.dispatchEvent(new Event("popstate"));
                 });
             }
