@@ -2,8 +2,11 @@ single-page-application-router {
     opacity: 1;
     z-index: auto;
     transition: opacity 0.1s;
-    display: block;
-    flex-grow: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 single-page-application-router.fade {
@@ -13,4 +16,12 @@ single-page-application-router.fade {
 
 single-page-application-router > * {
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
