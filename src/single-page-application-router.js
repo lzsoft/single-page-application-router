@@ -14,11 +14,13 @@ window.customElements.define('single-page-application-router', class extends HTM
         var observer = new MutationObserver(function(mutations) {
             for (var a of document.querySelectorAll("a:not([data-suppressed])")) {
                 a.setAttribute("data-suppressed", true);
-                a.addEventListener("click", function(e) {
-                    e.preventDefault();
-                    window.history.pushState(null, null, this.href);
-                    window.dispatchEvent(new Event("popstate"));
-                });
+                if (a.getAttribute("href")[0] !== '#') {
+                    a.addEventListener("click", function(e) {
+                        e.preventDefault();
+                        window.history.pushState(null, null, this.href);
+                        window.dispatchEvent(new Event("jump"));
+                    });
+                }
             }
         });
         observer.observe(document, {
@@ -31,8 +33,8 @@ window.customElements.define('single-page-application-router', class extends HTM
         for (var r of this.querySelectorAll("single-page-application-route")) {
             map[r.getAttribute("data-pattern")] = r.getAttribute("data-element");
         }
-        // Deal with popstate event
-        window.addEventListener("popstate", function(e) {
+        // Deal with jump event
+        window.addEventListener("jump", function(e) {
             self.classList.add("fade");
             window.setTimeout(function() {
                 window.scroll(0, 0);
@@ -57,10 +59,10 @@ window.customElements.define('single-page-application-router', class extends HTM
             }, 100);
         });
         window.addEventListener("load", function(e) {
-            window.dispatchEvent(new Event("popstate"));
+            window.dispatchEvent(new Event("jump"));
         });
         window.addEventListener("WebComponentsReady", function(e) {
-            window.dispatchEvent(new Event("popstate"));
+            window.dispatchEvent(new Event("jump"));
         });
     }
 });
