@@ -8,19 +8,16 @@ window.customElements.define('single-page-application-router', class extends HTM
         super();
     }
     connectedCallback() {
-        var self = this;
-        var map = {};
+        let map = {};
         // Suppress <a> element
-        var observer = new MutationObserver(function(mutations) {
-            for (var a of document.querySelectorAll("a:not([data-suppressed])")) {
-                a.setAttribute("data-suppressed", true);
-                if (a.getAttribute("href")[0] !== '#') {
-                    a.addEventListener("click", function(e) {
-                        e.preventDefault();
-                        window.history.pushState(null, null, this.href);
-                        window.dispatchEvent(new Event("jump"));
-                    });
-                }
+        const observer = new MutationObserver(function(mutations) {
+            for (let a of document.querySelectorAll("a:not([data-suppressed])")) {
+                a.setAttribute("data-suppressed", "");
+                a.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    window.history.pushState(true, null, this.href);
+                    window.dispatchEvent(new Event("popstate"));
+                });
             }
         });
         observer.observe(document, {
@@ -30,39 +27,34 @@ window.customElements.define('single-page-application-router', class extends HTM
             subtree: true
         });
         // Construct map
-        for (var r of this.querySelectorAll("single-page-application-route")) {
+        for (let r of this.querySelectorAll("single-page-application-route")) {
             map[r.getAttribute("data-pattern")] = r.getAttribute("data-element");
         }
-        // Deal with jump event
-        window.addEventListener("jump", function(e) {
-            self.classList.add("fade");
-            window.setTimeout(function() {
-                window.scroll(0, 0);
-                self.innerHTML = "";
-                var p = window.location.pathname;
-                var t = "";
-                var keys = Object.keys(map);
-                for (var i = 0; i < keys.length; i++) {
-                    if (p.indexOf(keys[i]) >= 0) {
-                        t = map[keys[i]];
-                    }
+        // Deal with popstate event
+        window.addEventListener("popstate", async(e) => {
+            this.classList.add("fade");
+            await window.tingting.util.sleep(100);
+            window.scroll(0, 0);
+            this.innerHTML = "";
+            let p = window.location.pathname;
+            let t = "";
+            let keys = Object.keys(map);
+            for (let i = 0; i < keys.length; i++) {
+                if (p.indexOf(keys[i]) >= 0) {
+                    t = map[keys[i]];
                 }
-                var c = window.customElements.get(t);
-                if (c) {
-                    self.appendChild(new c());
-                } else {
-                    console.log("Element not defined");
-                }
-                window.setTimeout(function() {
-                    self.classList.remove("fade");
-                }, 100);
-            }, 100);
+            }
+            let c = window.customElements.get(t);
+            if (c) {
+                this.appendChild(new c());
+            } else {
+                console.log("Element not defined");
+            }
+            await window.tingting.util.sleep(100);
+            this.classList.remove("fade");
         });
-        window.addEventListener("load", function(e) {
-            window.dispatchEvent(new Event("jump"));
-        });
-        window.addEventListener("WebComponentsReady", function(e) {
-            window.dispatchEvent(new Event("jump"));
+        window.addEventListener("load", (e) => {
+            window.dispatchEvent(new Event("popstate"));
         });
     }
 });
