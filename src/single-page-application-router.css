@@ -1,6 +1,9 @@
-single-page-application-router {
+:root {
     --single-page-application-router-transition-time: 0.2s;
     --single-page-application-router-transition-height: -20px;
+}
+
+single-page-application-router {
     opacity: 1;
     transition: opacity var(--single-page-application-router-transition-time), transform var(--single-page-application-router-transition-time);
     position: fixed;
