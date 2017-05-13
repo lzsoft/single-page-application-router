@@ -32,8 +32,10 @@ window.customElements.define('single-page-application-router', class extends HTM
         }
         // Deal with popstate event
         window.addEventListener("popstate", async(e) => {
+            let tt = parseFloat(window.getComputedStyle(this).getPropertyValue('--single-page-application-router-transition-time').replace('s', '')) * 1000;
             this.classList.add("fade");
-            await window.tingting.util.sleep(100);
+            await window.tingting.util.sleep(tt);
+            let z = this.offsetTop;
             window.scroll(0, 0);
             this.innerHTML = "";
             let p = window.location.pathname;
@@ -50,7 +52,6 @@ window.customElements.define('single-page-application-router', class extends HTM
             } else {
                 console.log("Element not defined");
             }
-            await window.tingting.util.sleep(100);
             this.classList.remove("fade");
         });
         window.addEventListener("load", (e) => {
