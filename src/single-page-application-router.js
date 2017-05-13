@@ -35,6 +35,8 @@ window.customElements.define('single-page-application-router', class extends HTM
             let tt = parseFloat(window.getComputedStyle(this).getPropertyValue('--single-page-application-router-transition-time').replace('s', '')) * 1000;
             this.classList.add("fade");
             await window.tingting.util.sleep(tt);
+            this.classList.add("disk");
+            this.classList.remove("fade");
             let z = this.offsetTop;
             window.scroll(0, 0);
             this.innerHTML = "";
@@ -52,7 +54,7 @@ window.customElements.define('single-page-application-router', class extends HTM
             } else {
                 console.log("Element not defined");
             }
-            this.classList.remove("fade");
+            this.classList.remove("disk");
         });
         window.addEventListener("load", (e) => {
             window.dispatchEvent(new Event("popstate"));
