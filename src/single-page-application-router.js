@@ -59,5 +59,8 @@ window.customElements.define('single-page-application-router', class extends HTM
         window.addEventListener("load", (e) => {
             window.dispatchEvent(new Event("popstate"));
         });
+        window.addEventListener("WebComponentsReady", (e) => {
+            window.dispatchEvent(new Event("popstate"));
+        });
     }
 });
