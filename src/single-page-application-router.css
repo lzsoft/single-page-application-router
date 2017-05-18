@@ -24,7 +24,6 @@ single-page-application-router.disk {
 }
 
 single-page-application-router > * {
-    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -33,4 +32,16 @@ single-page-application-router > * {
     left: 0;
     right: 0;
     bottom: 0;
+}
+
+@media (max-width: 600px) {
+    single-page-application-router,
+    single-page-application-router > * {
+        position: relative;
+        width: 100%;
+        height: auto;
+        flex-direction: column;
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+    }
 }
