@@ -1,9 +1,16 @@
 {
     "name": "single-page-application-router",
-    "main": "single-page-application-router.html",
     "version": "1.0.0",
     "description": "This is a SPA router and container element for internal use only. It suppresses all hyperlink on the page and use pushState to implement SPA, and when state changes, it maps its content to specified custom element.",
     "license": "MIT",
     "homepage": "https://github.com/lzsoft/single-page-application-router",
-    "flat": true
+    "flat": true,
+    "scripts": {
+        "init": "npm run init:uglify-es && npm run init:uglifycss",
+        "init:uglify-es": "npm install uglify-es -g",
+        "init:uglifycss": "npm install uglifycss -g",
+        "build": "npm run build:uglify-es && npm run build:uglifycss",
+        "build:uglify-es": "uglifyjs src/single-page-application-router.js -c -m -o min/single-page-application-router.js",
+        "build:uglifycss": "uglifycss src/single-page-application-router.css --output min/single-page-application-router.css"
+    }
 }
