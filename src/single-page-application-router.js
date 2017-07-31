@@ -48,8 +48,12 @@ window.customElements.define('single-page-application-router', class extends HTM
                     t = map[keys[i]];
                 }
             }
-            await customElements.whenDefined(t);
             let c = window.customElements.get(t);
+            if (c) {
+                this.appendChild(new c());
+            } else {
+                console.log("Element not defined");
+            }
             this.classList.remove("disk");
         });
         window.addEventListener("load", (e) => {
