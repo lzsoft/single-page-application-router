@@ -48,12 +48,9 @@ window.customElements.define('single-page-application-router', class extends HTM
                     t = map[keys[i]];
                 }
             }
-            let c = window.customElements.get(t);
-            if (c) {
-                this.appendChild(new c());
-            } else {
-                console.log("Element not defined");
-            }
+            customElements.whenDefined(t).then(() => {
+                this.appendChild(new(customElements.get(t)));
+            });
             this.classList.remove("disk");
         });
         window.addEventListener("load", (e) => {
