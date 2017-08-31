@@ -1,8 +1,7 @@
 single-page-application-router {
     --single-page-application-router-transition-time: 0.2s;
-    --single-page-application-router-transition-height: -20px;
     opacity: 1;
-    transition: opacity var(--single-page-application-router-transition-time), transform var(--single-page-application-router-transition-time);
+    transition: opacity var(--single-page-application-router-transition-time);
     position: fixed;
     top: 0;
     left: 0;
@@ -10,20 +9,15 @@ single-page-application-router {
     bottom: 0;
     transform-origin: center center;
 }
-
 single-page-application-router.fade {
     opacity: 0;
     z-index: 0;
-    transform: scale(1.05);
 }
-
 single-page-application-router.disk {
     transition: none;
     opacity: 0;
-    transform: scale(0.95);
 }
-
-single-page-application-router > * {
+single-page-application-router>* {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -33,10 +27,9 @@ single-page-application-router > * {
     right: 0;
     bottom: 0;
 }
-
 @media (max-width: 600px) {
     single-page-application-router,
-    single-page-application-router > * {
+    single-page-application-router>* {
         position: relative;
         width: 100%;
         height: auto;
