@@ -11,10 +11,10 @@ window.customElements.define('single-page-application-router', class extends HTM
         let lastPathName = "";
         let map = {};
         // Suppress <a> element
-        const observer = new MutationObserver(function(mutations) {
+        const observer = new MutationObserver(function (mutations) {
             for (let a of document.querySelectorAll("a:not([data-suppressed])")) {
                 a.setAttribute("data-suppressed", "");
-                a.addEventListener("click", function(e) {
+                a.addEventListener("click", function (e) {
                     e.preventDefault();
                     window.history.pushState(true, null, this.href);
                     window.dispatchEvent(new Event("popstate"));
@@ -32,12 +32,12 @@ window.customElements.define('single-page-application-router', class extends HTM
             map[r.getAttribute("data-pattern")] = r.getAttribute("data-element");
         }
         // Deal with popstate event
-        window.addEventListener("popstate", async() => {
+        window.addEventListener("popstate", async () => {
             if (lastPathName !== window.location.pathname) {
                 lastPathName = window.location.pathname;
                 let tt = parseFloat(window.getComputedStyle(this).getPropertyValue('--single-page-application-router-transition-time').replace('s', '')) * 1000;
                 this.classList.add("fade");
-                await window.tingting.util.sleep(tt);
+                await window.avalon.util.sleep(tt);
                 this.classList.add("disk");
                 this.classList.remove("fade");
                 let z = this.offsetTop;
