@@ -59,8 +59,6 @@ window.customElements.define('single-page-application-router', class extends HTM
                 //otherwise it's likely to be a hashchange
             }
         });
-        window.addEventListener("load", (e) => {
-            window.dispatchEvent(new Event("popstate"));
-        });
+        window.dispatchEvent(new Event("popstate"));
     }
 });

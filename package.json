@@ -7,10 +7,12 @@
     "dependencies": {
         "gulp": "^3.9.1",
         "gulp-clean-css": "^3.9.2",
-        "gulp-minify": "^2.1.0"
+        "gulp-minify": "^2.1.0",
+        "del": "*"
     },
     "flat": true,
     "scripts": {
-        "install": "gulp build"
+        "install": "gulp build",
+        "postinstall": "gulp clean"
     }
 }
