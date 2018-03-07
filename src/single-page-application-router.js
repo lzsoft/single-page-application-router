@@ -1,40 +1,50 @@
-window.customElements.define('single-page-application-route', class extends HTMLElement {
-    constructor() {
-        super();
-    }
-});
-window.customElements.define('single-page-application-router', class extends HTMLElement {
-    constructor() {
-        super();
-    }
-    connectedCallback() {
-        let lastPathName = "";
-        let map = {};
-        // Suppress <a> element
-        const observer = new MutationObserver(function (mutations) {
-            for (let a of document.querySelectorAll("a:not([data-suppressed])")) {
-                a.setAttribute("data-suppressed", "");
-                a.addEventListener("click", function (e) {
-                    e.preventDefault();
-                    window.history.pushState(true, null, this.href);
-                    window.dispatchEvent(new Event("popstate"));
+{
+    const ATTR_MULTI_PAGE_MODE = "data-multi-page-mode";
+    const ROUTER_MAP = new Map();
+    let previousPathName = "";
+    window.customElements.define('single-page-application-route', class extends HTMLElement {
+        constructor() {
+            super();
+        }
+    });
+    window.customElements.define('single-page-application-router', class extends HTMLElement {
+        constructor() {
+            super();
+        }
+        async connectedCallback() {
+            if (this.hasAttribute(ATTR_MULTI_PAGE_MODE)) {
+                // Do nothing if we're running in classic multi page mode
+            } else {
+                const observer = new MutationObserver(function (mutations) {
+                    for (let a of document.querySelectorAll("a:not([data-suppressed])")) {
+                        a.setAttribute("data-suppressed", "");
+                        a.addEventListener("click", function (e) {
+                            e.preventDefault();
+                            window.history.pushState(true, null, this.href);
+                            window.dispatchEvent(new Event("popstate"));
+                        });
+                    }
+                });
+                observer.observe(document, {
+                    attributes: false,
+                    childList: true,
+                    characterData: false,
+                    subtree: true
+                });
+                window.addEventListener("popstate", e => {
+                    this.navigate();
                 });
             }
-        });
-        observer.observe(document, {
-            attributes: false,
-            childList: true,
-            characterData: false,
-            subtree: true
-        });
-        // Construct map
-        for (let r of this.querySelectorAll("single-page-application-route")) {
-            map[r.getAttribute("data-pattern")] = r.getAttribute("data-element");
+            // Construct map
+            for (let r of this.querySelectorAll("single-page-application-route")) {
+                ROUTER_MAP.set(r.getAttribute("data-pattern"), r.getAttribute("data-element"));
+            }
+            // Deal with popstate event
+            await this.navigate();
         }
-        // Deal with popstate event
-        window.addEventListener("popstate", async () => {
-            if (lastPathName !== window.location.pathname) {
-                lastPathName = window.location.pathname;
+        async navigate() {
+            if (previousPathName !== window.location.pathname) {
+                previousPathName = window.location.pathname;
                 let tt = parseFloat(window.getComputedStyle(this).getPropertyValue('--single-page-application-router-transition-time').replace('s', '')) * 1000;
                 this.classList.add("fade");
                 await window.avalon.util.sleep(tt);
@@ -45,10 +55,10 @@ window.customElements.define('single-page-application-router', class extends HTM
                 this.innerHTML = "";
                 let p = window.location.pathname;
                 let t = "";
-                let keys = Object.keys(map);
-                for (let i = 0; i < keys.length; i++) {
-                    if (p.indexOf(keys[i]) >= 0) {
-                        t = map[keys[i]];
+                let keys = ROUTER_MAP.keys();
+                for (let k of keys) {
+                    if (p.indexOf(k) >= 0) {
+                        t = ROUTER_MAP.get(k);
                     }
                 }
                 customElements.whenDefined(t).then(() => {
@@ -58,7 +68,6 @@ window.customElements.define('single-page-application-router', class extends HTM
             } else {
                 //otherwise it's likely to be a hashchange
             }
-        });
-        window.dispatchEvent(new Event("popstate"));
-    }
-});
+        }
+    });
+}
