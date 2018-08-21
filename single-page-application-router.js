@@ -1,7 +1,7 @@
 {
 	const ATTR_MULTI_PAGE_MODE = "data-multi-page-mode";
 	const ROUTER_MAP = new Map();
-	let previousPathName = "";
+	let previousPathName;
 	window.customElements.define('single-page-application-route', class extends HTMLElement {
 		constructor() {
 			super();
@@ -44,8 +44,7 @@
 		}
 		async navigate() {
 			if (previousPathName === window.location.pathname) {
-				return true;
-				// likely to be a hashchange
+				return true; // Most likely a hashchange
 			}
 			previousPathName = window.location.pathname;
 			let tt = parseFloat(window.getComputedStyle(this).getPropertyValue('--single-page-application-router-transition-time').replace('s', '')) * 1000;
