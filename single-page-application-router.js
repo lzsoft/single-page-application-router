@@ -43,31 +43,31 @@
 			await this.navigate();
 		}
 		async navigate() {
-			if (previousPathName !== window.location.pathname) {
-				previousPathName = window.location.pathname;
-				let tt = parseFloat(window.getComputedStyle(this).getPropertyValue('--single-page-application-router-transition-time').replace('s', '')) * 1000;
-				this.classList.add("fade");
-				await window.avalon.util.sleep(tt);
-				this.classList.add("disk");
-				this.classList.remove("fade");
-				let z = this.offsetTop;
-				window.scroll(0, 0);
-				this.innerHTML = "";
-				let p = window.location.pathname;
-				let t = "";
-				let keys = ROUTER_MAP.keys();
-				for (let k of keys) {
-					if (p.indexOf(k) >= 0) {
-						t = ROUTER_MAP.get(k);
-					}
-				}
-				customElements.whenDefined(t).then(() => {
-					this.appendChild(new(customElements.get(t)));
-				});
-				this.classList.remove("disk");
-			} else {
-				//otherwise it's likely to be a hashchange
+			if (previousPathName === window.location.pathname) {
+				return true;
+				// likely to be a hashchange
 			}
+			previousPathName = window.location.pathname;
+			let tt = parseFloat(window.getComputedStyle(this).getPropertyValue('--single-page-application-router-transition-time').replace('s', '')) * 1000;
+			this.classList.add("fade");
+			await new Promise(r => setTimeout(r, tt));
+			this.classList.add("disk");
+			this.classList.remove("fade");
+			let z = this.offsetTop;
+			window.scroll(0, 0);
+			this.innerHTML = "";
+			let p = window.location.pathname;
+			let t = "";
+			let keys = ROUTER_MAP.keys();
+			for (let k of keys) {
+				if (p.indexOf(k) >= 0) {
+					t = ROUTER_MAP.get(k);
+				}
+			}
+			customElements.whenDefined(t).then(() => {
+				this.appendChild(new(customElements.get(t)));
+			});
+			this.classList.remove("disk");
 		}
 	});
 }
