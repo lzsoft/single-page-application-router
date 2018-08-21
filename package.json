@@ -1,18 +1,9 @@
 {
-    "name": "single-page-application-router",
-    "version": "1.0.0",
-    "description": "This is a SPA router and container element for internal use only. It suppresses all hyperlink on the page and use pushState to implement SPA, and when state changes, it maps its content to specified custom element.",
-    "license": "MIT",
-    "homepage": "https://github.com/tclzcja/single-page-application-router",
-    "dependencies": {
-        "gulp": "^3.9.1",
-        "gulp-clean-css": "^3.9.2",
-        "gulp-minify": "^2.1.0",
-        "del": "*"
-    },
-    "flat": true,
-    "scripts": {
-        "install": "gulp build",
-        "postinstall": "gulp clean"
-    }
+	"name": "single-page-application-router",
+	"description": "This is a SPA router and container element for internal use only. It suppresses all hyperlink on the page and use pushState to implement SPA, and when state changes, it maps its content to specified custom element.",
+	"license": "MIT",
+	"homepage": "https://github.com/tclzcja/single-page-application-router",
+	"dependencies": {
+		"avalon-front-end-infrastructure": "github:tclzcja/avalon-front-end-infrastructure#1.0"
+	}
 }
