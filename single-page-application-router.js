@@ -1,71 +1,85 @@
-const ATTR_MULTI_PAGE_MODE = "data-multi-page-mode";
-const ROUTER_MAP = new Map();
-let previousPathName;
-window.customElements.define('single-page-application-route', class extends HTMLElement {
-	constructor() {
-		super();
-	}
-});
+const _router_map = Symbol('Router Map');
+const _when_ready_event_queue = Symbol('When Ready Event Queue');
+const _previous_path = Symbol('Previous Path');
+//
 window.customElements.define('single-page-application-router', class extends HTMLElement {
 	constructor() {
 		super();
+		this[_router_map] = new Map();
+		this[_when_ready_event_queue] = new Map();
+		this[_previous_path] = null;
+	}
+	addRoute(path, customElementTagName) {
+		this.routerMap.set(path, customElementTagName);
+		this.navigate();
+	}
+	get routerMap() {
+		return this[_router_map];
+	}
+	get previousPath() {
+		return this[_previous_path];
+	}
+	set previousPath(value) {
+		this[_previous_path] = value;
 	}
 	async connectedCallback() {
-		if (this.hasAttribute(ATTR_MULTI_PAGE_MODE)) {
+		if (this.hasAttribute("data-multi-page-mode")) {
 			// Do nothing if we're running in classic multi page mode
-		} else {
-			const observer = new MutationObserver(function(mutations) {
-				for (let a of document.querySelectorAll("a:not([data-suppressed])")) {
-					a.setAttribute("data-suppressed", "");
-					a.addEventListener("click", function(e) {
-						e.preventDefault();
-						window.history.pushState(true, null, this.href);
-						window.dispatchEvent(new Event("popstate"));
-					});
-				}
-			});
-			observer.observe(document, {
-				attributes: false,
-				childList: true,
-				characterData: false,
-				subtree: true
-			});
-			window.addEventListener("popstate", e => {
-				this.navigate();
-			});
+			return true;
 		}
-		// Construct map
-		for (let r of this.querySelectorAll("single-page-application-route")) {
-			ROUTER_MAP.set(r.getAttribute("data-pattern"), r.getAttribute("data-element"));
-		}
+		const observer = new MutationObserver(function(mutations) {
+			for (let a of document.querySelectorAll("a:not([data-suppressed])")) {
+				a.setAttribute("data-suppressed", "");
+				a.addEventListener("click", function(e) {
+					e.preventDefault();
+					window.history.pushState(true, null, this.href);
+					window.dispatchEvent(new Event("popstate"));
+				});
+			}
+		});
+		observer.observe(document, {
+			attributes: false,
+			childList: true,
+			characterData: false,
+			subtree: true
+		});
+		window.addEventListener("popstate", e => {
+			this.navigate();
+		});
 		// Deal with popstate event
-		await this.navigate();
+		this.navigate();
 	}
-	async navigate() {
-		if (previousPathName === window.location.pathname) {
-			return true; // Most likely a hashchange
+	navigate() {
+		// If the new path is the same as the previous one then no page reloading is needed
+		// Most likely a hashchange
+		if (this.previousPath === window.location.pathname) {
+			return true;
 		}
-		previousPathName = window.location.pathname;
-		let tt = parseFloat(window.getComputedStyle(this).getPropertyValue('--single-page-application-router-transition-time').replace('s', '')) * 1000;
-		this.classList.add("fade");
-		await new Promise(r => setTimeout(r, tt));
-		this.classList.add("disk");
-		this.classList.remove("fade");
-		let z = this.offsetTop;
-		window.scroll(0, 0);
-		this.innerHTML = "";
-		let p = window.location.pathname;
-		let t = "";
-		let keys = ROUTER_MAP.keys();
+		let tagName = "";
+		let keys = this.routerMap.keys();
 		for (let k of keys) {
-			if (p.indexOf(k) >= 0) {
-				t = ROUTER_MAP.get(k);
+			if (window.location.pathname.indexOf(k) >= 0) {
+				tagName = this.routerMap.get(k);
+				break;
 			}
 		}
-		customElements.whenDefined(t).then(() => {
-			this.appendChild(new(customElements.get(t)));
-		});
-		this.classList.remove("disk");
+		if (tagName) {
+			window.scroll(0, 0);
+			this.previousPath = window.location.pathname;
+			const page = this.querySelector(":scope > :not(single-page-application-route)");
+			if (page) {
+				page.remove();
+			}
+			window.customElements.whenDefined(tagName).then(() => {
+				this.appendChild(new(customElements.get(tagName)));
+			});
+		}
 	}
 });
-export {};
+window.customElements.define('single-page-application-route', class extends HTMLElement {
+	constructor() {
+		super();
+		this.parentNode.addRoute(this.getAttribute("data-path"), this.getAttribute("data-element"));
+		this.remove();
+	}
+});
