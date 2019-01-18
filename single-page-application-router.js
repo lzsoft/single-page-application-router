@@ -60,7 +60,6 @@ window.customElements.define('single-page-application-router', class extends HTM
 		for (let k of keys) {
 			if (window.location.pathname.indexOf(k) >= 0) {
 				tagName = this.routerMap.get(k);
-				break;
 			}
 		}
 		if (tagName) {
